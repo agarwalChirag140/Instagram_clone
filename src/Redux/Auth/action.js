@@ -1,5 +1,5 @@
 import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "../Auth/actionType"
-import { auth } from "../../firebase"
+import { auth} from "../../firebase"
 
 export const registerRequest = () => {
     return {
@@ -44,9 +44,17 @@ export const loginFailure = (payload) => {
 export const registerUser = (payload) => (dispatch) => {
 
     dispatch(registerRequest())
+    console.log(payload)
 
     auth.createUserWithEmailAndPassword(payload.email, payload.password)
     .then((authUser) => {
+        // console.log(authUser)
+        auth.onAuthStateChanged((authUser) => {
+            authUser.updateProfile({
+                displayName: payload.name,
+                photoURL: payload.imageUrl,
+            })
+        })
         console.log(authUser)
         dispatch(registerSuccess())
     })
@@ -61,6 +69,7 @@ export const loginUser = (payload) => (dispatch) => {
 
     auth.signInWithEmailAndPassword(payload.email, payload.password)
     .then((user) => {
+        console.log(user)
         dispatch(loginSuccess(user.user))
     })
     .catch((err) => {

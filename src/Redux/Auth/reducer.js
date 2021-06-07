@@ -5,7 +5,6 @@ const token = loadData("token")
 
 const initState = {
     isAuth: token ? true: false,
-    email: "",
     loginLoading: false,
     loginError: false,
     loginSuccessMessage: "",
@@ -62,7 +61,6 @@ export const authReducer = (state = initState, {type, payload}) => {
                 loginSuccessMessage: "Login Successfull",
                 loginSuccess: true,
                 loginFailure: false,
-                email: payload.email
             }
         case LOGIN_FAILURE:
             return {
