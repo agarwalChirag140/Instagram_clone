@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Login } from './Login'
 import { registerUser } from "../Redux/Auth/action"
+import { storage } from '../firebase'
 
 export const Signin = () => {
 
@@ -10,6 +11,10 @@ export const Signin = () => {
     const [name, setName] = React.useState("")
     const [username, setUsername] = React.useState("")
     const [password, setPassword] = React.useState("")
+    const [number, setNumber] = React.useState("")
+    const [uploadImage, setUploadImage] = React.useState(null)
+    const [imageUrl, setImageUrl] = React.useState("")
+    const [imageErrorMessage, setimageErrorMessage] = React.useState("")
 
     const logIn = () => {
         setLogin(!login)
@@ -24,7 +29,40 @@ export const Signin = () => {
 
     const signUp = (e) => {
         e.preventDefault()
-        dispatch(registerUser({email, name, username, password}))
+
+        const uploadUserProfileImage = storage.ref(`profileImages/${uploadImage.name}`).put(uploadImage)
+        uploadUserProfileImage.on(
+            "state_changed",
+            snapshot => {},
+            error => {
+                console.log(error)
+            },
+            () => {
+                storage
+                    .ref("profileImages")
+                    .child(uploadImage.name)
+                    .getDownloadURL()
+                    .then(url => {
+                        setImageUrl(url)
+                    }) 
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+        )
+        console.log(imageUrl)
+        if(imageUrl) {
+            dispatch(registerUser({email, name, username, password, number, imageUrl}))
+        }
+        else {
+            setimageErrorMessage("Using an Existing image")
+        }
+    }
+
+    const handleChange = (e) => {
+        if(e.target.files[0]) {
+            setUploadImage(e.target.files[0])
+        }
     }
     return (
         <>
@@ -41,11 +79,18 @@ export const Signin = () => {
                             <div className=" w-4/5 m-auto mt-2">
                                 <input type="text" placeholder="Username" className="w-full border-2 border-gray p-2 focus:outline-none" value={username} onChange={e => setUsername(e.target.value)} />
                             </div>
-                            <div className=" w-4/5 m-auto">
-                                <input type="text" placeholder="Mobile Number or Email" className="w-full border-2 border-gray p-2 mt-5 focus:outline-none" value={email} onChange={e => setEmail(e.target.value)} />
+                            <div className=" w-4/5 m-auto mt-2">
+                                <input type="text" placeholder="Email" className="w-full border-2 border-gray p-2 focus:outline-none" value={email} onChange={e => setEmail(e.target.value)} />
                             </div>
                             <div className=" w-4/5 m-auto mt-2">
-                                <input type="password" placeholder="Password" className="w-full border-2 border-gray p-2 focus:outline-none" value={password} onChange={e => setPassword(e.target.value)} />
+                                <input type="text" placeholder="Password" className="w-full border-2 border-gray p-2 focus:outline-none" value={password} onChange={e => setPassword(e.target.value)} />
+                            </div>
+                            <div className=" w-4/5 m-auto mt-2">
+                                <input type="text" placeholder="Type a number" className="w-full border-2 border-gray p-2 focus:outline-none" value={number} onChange={e => setNumber(e.target.value)} />
+                            </div>
+                            <div className=" w-4/5 m-auto mt-3">
+                                <label>Choose a photo for profile</label>
+                                <input type="file" onChange={handleChange} />
                             </div>
                             <div className="w-4/5 m-auto">
                                 <button className={`w-full mt-4 bg-blue-400 text-white p-2 font-bold ${email && name && username && password && "bg-blue-900"}`} onClick={signUp}>Sign up</button>
