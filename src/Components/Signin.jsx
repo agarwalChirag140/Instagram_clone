@@ -69,7 +69,7 @@ export const Signin = () => {
             {
                 login ? 
                   <Login /> :
-                <div className="w-full sm:w-2/4 mt-10 mr-4">
+                <div className="w-full sm:w-2/4 mr-4">
                     <div className="shadow-xl border-2 border-gray-300 mr-2 ml-2 w-full">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkVKYACsp_iK3zk3TdqJ-bwTpSP3_3vlVotARHETB16ZLg_n37rhkRkD01JYxF0vf8PJc&usqp=CAU" alt="instagram logo" className="w-3/5 m-auto" />
                         <form>
@@ -90,7 +90,7 @@ export const Signin = () => {
                             </div>
                             <div className=" w-4/5 m-auto mt-3">
                                 <label>Choose a photo for profile</label>
-                                <input type="file" onChange={handleChange} />
+                                <input type="file" className="mt-4" onChange={handleChange} />
                             </div>
                             <div className="w-4/5 m-auto">
                                 <button className={`w-full mt-4 bg-blue-400 text-white p-2 font-bold ${email && name && username && password && "bg-blue-900"}`} onClick={signUp}>Sign up</button>
@@ -105,7 +105,7 @@ export const Signin = () => {
                         <p className="text-center text-sm pt-5 text-gray-500">By Signing up, you agree to our <span className="font-bold">Terms, Data</span></p>
                         <p className="text-center text-sm text-gray-500 mb-5"><span className="font-bold">Policy</span> and <span className="font-bold">Cookies Policy</span></p>
                     </div>
-                    <div className="shadow-xl border-2 border-gray-300 mr-2 ml-2 w-full flex justify-center itens-center p-6 mt-5">
+                    <div className="mr-2 ml-2 shadow-xl border-2 border-gray-300 w-full flex justify-center items-center itens-center mt-5 h-14">
                         <p>Have an account? <span className="text-blue-600 cursor-pointer" onClick={logIn}>Log in</span></p>
                     </div>
                 </div>

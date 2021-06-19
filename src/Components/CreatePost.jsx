@@ -1,12 +1,11 @@
 import React from "react"
-import { useSelector } from "react-redux"
 import { auth, db, storage } from "../firebase"
+import firebase from "firebase"
 
 export const CreatePost = () => {
 
-    const [postImage, setPostImage] = React.useState("")
+    const [postImage, setPostImage] = React.useState(null)
     const [postCaption, setPostCaption] = React.useState("")
-    const [postImageUrl, setPostImageUrl] = React.useState("")
     const [currentUser, setCurrentUser] = React.useState("")
 
     const handleChange = (e) => {
@@ -32,6 +31,7 @@ export const CreatePost = () => {
                     .then(url => {
                         db.collection("usersPost")
                         .add({
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                             caption: postCaption,
                             postImage: url,
                             profileName: currentUser.displayName,
@@ -54,14 +54,14 @@ export const CreatePost = () => {
 
     return (
         <>
-            <div className="sm:w-3/4 border-2 border-gray-300 mt-4">
+            <div className="w-full border-2 border-gray-300 mt-4">
                 <h1 className="text-2xl font-semibold pl-2 pt-1">Create Post</h1>
                 <div className="border-t-2 border-gray-300 mt-1">
                 <textarea rows="3" className="w-full focus:outline-none pl-2 text-xl pt-1" placeholder="Add the post" value={postCaption} onChange={e => setPostCaption(e.target.value)} />
                 </div>
                 <div className="border-t-2 border-gray-300 p-2 flex justify-between">
                     <input type="file" onChange={handleChange} />
-                    <button className="p-1 bg-blue-800 text-white font-bold focus:-outline-none" onClick={createPost}>Create post</button>
+                    <button className="w-28 bg-blue-800 text-white font-bold focus:outline-none" onClick={createPost}>Create post</button>
                 </div>
             </div>
         </>

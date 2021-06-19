@@ -1,5 +1,5 @@
-import { loadData, saveData } from "../../utils/localStorage"
-import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "../Auth/actionType"
+import { deleteData, loadData, saveData } from "../../utils/localStorage"
+import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "../Auth/actionType"
 
 const token = loadData("token")
 
@@ -70,6 +70,15 @@ export const authReducer = (state = initState, {type, payload}) => {
                 loginErrorMessage: payload,
                 loginSuccess: false,
                 loginFailure: true
+            }
+        case LOGOUT:
+            deleteData("token")
+            return {
+                ...state,
+                isAuth: false,
+                isLoading: false,
+                isError: false,
+                loginSuccess: false,
             }
         default:
             return state

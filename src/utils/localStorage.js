@@ -13,4 +13,8 @@ function loadData(key) {
     }
 }
 
-export {saveData, loadData}
+function deleteData(key) {
+    localStorage.removeItem(key)
+}
+
+export {saveData, loadData, deleteData}

@@ -1,4 +1,4 @@
-import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "../Auth/actionType"
+import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "../Auth/actionType"
 import { auth} from "../../firebase"
 
 export const registerRequest = () => {
@@ -38,6 +38,12 @@ export const loginFailure = (payload) => {
     return {
         type: LOGIN_FAILURE,
         payload
+    }
+}
+
+export const logOut = () => {
+    return {
+        type: LOGOUT
     }
 }
 
