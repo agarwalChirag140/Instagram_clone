@@ -31,6 +31,7 @@ export const NavBar = () => {
 
     const [currentUser, setCurrentUser] = React.useState("")
     const [openSetting, setOpenSetting] = React.useState(false)
+    const [profilePageOpen,  setProfilePageOpen] = React.useState(false)
     const isAuth = useSelector((state) => state.auth.isAuth)
 
     React.useEffect(() => {
@@ -49,6 +50,14 @@ export const NavBar = () => {
 
     const logout = () => {
       dispatch(logOut())
+    }
+
+    const openProfile = () => {
+       setProfilePageOpen(!profilePageOpen)
+    }
+
+    if(profilePageOpen) {
+      return <Redirect to="/profilepage"/> 
     }
 
     return (
@@ -85,7 +94,7 @@ export const NavBar = () => {
             {
               openSetting && 
               <div className="w-56 h-44 border-2 border-gray-300 absolute right-0 sm:left-1/5 bg-white z-50 text-center">
-                <Tooltip title="Profile">
+                <Tooltip title="Profile" onClick={openProfile}>
                   <p className="text-2xl p-3 border-b-2 border-gray-300 cursor-pointer">Profile</p>
                 </Tooltip>
                 <Tooltip title="Settings">

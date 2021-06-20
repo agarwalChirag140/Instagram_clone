@@ -30,7 +30,6 @@ export const Profile = () => {
         })
     },[])
 
-    console.log(currentUser)
 
     return (
         <div className="w-full h-64 ml-2 border-2 border-gray-300 mt-4 sm:inline-block hidden">

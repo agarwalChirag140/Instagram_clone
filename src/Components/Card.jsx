@@ -1,9 +1,13 @@
 import Avatar from "@material-ui/core/Avatar"
 import React from "react"
 import { makeStyles } from '@material-ui/core/styles'
-import { AiOutlineHeart, AiOutlineComment } from 'react-icons/ai'
+import { AiOutlineHeart} from 'react-icons/ai'
 import { db } from "../firebase";
 import firebase from "firebase"
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { red } from '@material-ui/core/colors';
+import heart from "../Images/heart-removebg-preview.png"
+import unlike from "../Images/heart__1_-removebg-preview.png"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,12 +26,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const Card = ({caption, postImage, profileName, profileUrl, postId, currentUserId, currentUserName}) => {
+export const Card = ({caption, postImage, profileName, profileUrl, postId, currentUser}) => {
+
+    const {uid} = currentUser
     const classes = useStyles()
     const [comment, setComment] = React.useState("")
     const [comments, setComments] = React.useState([])
     const [likes, setLikes] = React.useState([])
-    const [liked, setLiked] = React.useState("")
+  
 
     React.useEffect(() => {
       if(postId) {
@@ -47,18 +53,28 @@ export const Card = ({caption, postImage, profileName, profileUrl, postId, curre
         .doc(postId)
         .collection("likes")
         .onSnapshot((snapshot) => {
-          setLikes(snapshot.docs.map((doc) => doc.data().username))
+          setLikes(snapshot.docs.map((doc) => doc.data().userId))
         })
       }
     },[postId])
 
     const postComment = () => {
       db.collection("usersPost").doc(postId).collection("comments").add({
-          username: currentUserName,
+          username: currentUser.displayName,
           text: comment,
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
       })
       setComment('')
+    }
+
+    const addLike = () => {
+      db.collection("usersPost").doc(postId).collection("likes").doc(currentUser.uid).set({
+          userId: currentUser.uid
+      })  
+    }
+
+    const removeLike = () => {
+      db.collection("usersPost").doc(postId).collection("likes").doc(uid).delete()
     }
 
     return (
@@ -79,7 +95,10 @@ export const Card = ({caption, postImage, profileName, profileUrl, postId, curre
                 
                 {/* Post icons */}
                 <div className="flex m-2">
-                    <AiOutlineHeart className="text-4xl" />
+                    {
+                      (likes.indexOf(uid) === -1) ?  <img src={unlike} alt="unlike heart" className="w-8 cursor-pointer" onClick={addLike} /> : <img src={heart} alt="heart" className="w-8 cursor-pointer" onClick={removeLike} />
+                    }
+                    <p className="cursor-pointer pl-2 text-2xl"> {likes.length} Likes</p>
                 </div>
                 {/* All comments */}
                 <div className="p-2">

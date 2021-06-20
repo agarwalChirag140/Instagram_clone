@@ -28,8 +28,6 @@ export const HomeScreen = () => {
         })
     },[])
 
-    console.log(currentUser)
-
     if(!isAuth) {
         return <Redirect to="/starting" />
     }
@@ -37,14 +35,13 @@ export const HomeScreen = () => {
     return (
         <div>
             {/* <p>This is the main page</p> */}
-            <NavBar />
                 <div className="w-full sm:w-4/7 sm:m-auto flex">
                     <div>
                         <Stories />
                         <CreatePost />
                         {
                             post.map((item) => { 
-                                return <Card currentUserName={currentUser.displayName} currentUserId={currentUser.id} key={item.id} postId={item.id} caption={item.post.caption} postImage={item.post.postImage} profileName={item.post.profileName} profileUrl={item.post.profileUrl} />
+                                return <Card currentUser={currentUser} postId={item.id} caption={item.post.caption} postImage={item.post.postImage} profileName={item.post.profileName} profileUrl={item.post.profileUrl} />
                             })
                         }
                         {/* <Card /> */}
