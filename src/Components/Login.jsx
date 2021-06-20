@@ -74,11 +74,11 @@ export const Login = () => {
                     <div className="flex justify-center items-center p-4 border-2 border-gray-300 mt-5 bg-white shadow-xl mr-2 ml-2">
                         <p className="font-normal">Don't have an account? <span className="text-blue-500 font-bold cursor-pointer" onClick={signUp}>Sign up</span></p>
                     </div>
-                    <div className=" mt-5">
-                        <p className="pt-2 text-center">Get the app.</p>
-                        <div className="flex mt-4">
-                            <img src="https://www.instagram.com/static/images/appstore-install-badges/badge_ios_english-en.png/180ae7a0bcf7.png" alt="App Store" className="w-1/3 ml-14" />
-                            <img src="https://www.instagram.com/static/images/appstore-install-badges/badge_android_english-en.png/e9cd846dc748.png" alt="Google play" className="w-1/3 ml-2" />
+                    <div className=" mt-2">
+                        <p className="text-center">Get the app.</p>
+                        <div className="flex justify-center mt-2">
+                            <img src="https://www.instagram.com/static/images/appstore-install-badges/badge_ios_english-en.png/180ae7a0bcf7.png" alt="App Store" className="w-1/3 h-12" />
+                            <img src="https://www.instagram.com/static/images/appstore-install-badges/badge_android_english-en.png/e9cd846dc748.png" alt="Google play" className="w-1/3 ml-2 h-12" />
                         </div>
                     </div>
                 </div>
